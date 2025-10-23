@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useNav } from "@/lib/utils/navigation"
 import { useToast } from "@/hooks/use-toast"
+import { AlertCircle, Loader2 } from "lucide-react"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -80,9 +81,12 @@ export default function LoginPage() {
               />
             </div>
             {error && (
-              <p className="text-sm text-destructive" role="alert" aria-live="polite">
-                {error}
-              </p>
+              <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20 animate-in fade-in duration-200">
+                <AlertCircle className="h-4 w-4 text-destructive flex-shrink-0" />
+                <p className="text-sm text-destructive" role="alert" aria-live="polite">
+                  {error}
+                </p>
+              </div>
             )}
             <Button
               type="submit"
@@ -91,7 +95,14 @@ export default function LoginPage() {
               className="w-full bg-[var(--primary)] text-white hover:bg-[color:rgba(244,108,91,.9)] focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none"
               data-testid="login-button"
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing in...
+                </>
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
 
