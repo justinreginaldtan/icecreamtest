@@ -1,12 +1,14 @@
 "use client"
 
 import type React from "react"
+import { useState } from "react"
 import { useAuth } from "@/lib/auth/auth-context"
 import { Sidebar } from "./sidebar"
 import { Header } from "./header"
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const { isLoading } = useAuth()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   if (isLoading) {
     return (
@@ -18,9 +20,12 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-screen bg-[var(--bg)]">
-      <Sidebar />
-      <div className="flex flex-1 flex-col pl-64">
-        <Header />
+      <Sidebar 
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+      />
+      <div className="flex flex-1 flex-col lg:pl-64">
+        <Header onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
         <main className="flex-1">{children}</main>
       </div>
     </div>
