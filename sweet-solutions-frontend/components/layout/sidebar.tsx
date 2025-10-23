@@ -44,7 +44,7 @@ export function Sidebar() {
         <nav className="flex-1 space-y-6 px-3 py-4">
           {Object.entries(sections).map(([sectionName, items]) => (
             <div key={sectionName}>
-              <div className="px-3 mb-2">
+              <div className="px-3 mb-2 mt-1">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[color:rgba(44,42,41,.5)]">
                   {sectionName}
                 </p>
@@ -57,14 +57,14 @@ export function Sidebar() {
                       key={item.name}
                       href={item.href}
                       className={cn(
-                        "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none",
+                        "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ease-out focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none",
                         isActive
-                          ? "bg-[var(--brandBlue)] text-white hover:bg-[color:rgba(73,182,194,.9)] before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-[var(--brandPink)] before:rounded-l-lg"
-                          : "text-[var(--text)] hover:bg-[var(--muted)]",
+                          ? "bg-[var(--brandBlue)] text-white hover:bg-[color:rgba(73,182,194,.9)] shadow-md before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-[var(--brandPink)] before:rounded-l-lg after:absolute after:right-3 after:top-1/2 after:-translate-y-1/2 after:w-1.5 after:h-1.5 after:bg-white after:rounded-full"
+                          : "text-[var(--text)] hover:bg-[var(--muted)] hover:translate-x-1 hover:border-l-2 hover:border-[var(--brandBlue)]",
                       )}
                       data-testid={`nav-${item.name.toLowerCase().replace(' ', '-')}`}
                     >
-                      <item.icon className="h-5 w-5" />
+                      <item.icon className="h-5 w-5 transition-colors duration-200" />
                       {item.name}
                     </Link>
                   )
