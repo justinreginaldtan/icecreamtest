@@ -1,3 +1,8 @@
+// AWS INTEGRATION NOTE:
+// Update this to AWS API Gateway URL after backend deployment
+// Format: https://<api-id>.execute-api.<region>.amazonaws.com/<stage>
+// Example: https://abc123xyz.execute-api.us-east-1.amazonaws.com/prod
+// Set via environment variable: NEXT_PUBLIC_API_URL in Vercel/Amplify
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
 interface ApiResponse<T = any> {
@@ -93,6 +98,14 @@ class ApiClient {
   }
 
   // Auth methods
+  // AWS INTEGRATION NOTE:
+  // If migrating to AWS Cognito, replace this API call with Cognito SDK:
+  // import { CognitoUserPool, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
+  // const userPool = new CognitoUserPool({ UserPoolId, ClientId });
+  // const authDetails = new AuthenticationDetails({ Username, Password });
+  // const cognitoUser = new CognitoUser({ Username, Pool: userPool });
+  // cognitoUser.authenticateUser(authDetails, callbacks);
+  // Or use AWS Amplify library for simpler integration
   async login(email: string, password: string) {
     const response = await this.request('/api/auth/login', {
       method: 'POST',
