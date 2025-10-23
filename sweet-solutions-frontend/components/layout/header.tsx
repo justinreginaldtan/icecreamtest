@@ -9,11 +9,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Bell, LogOut, User } from "lucide-react"
+import { Bell, LogOut, User, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/lib/auth/auth-context"
 
-export function Header() {
+export function Header({ 
+  onMenuToggle 
+}: { 
+  onMenuToggle?: () => void 
+}) {
   const { user, logout } = useAuth()
 
   const initials =
@@ -24,7 +28,21 @@ export function Header() {
       .toUpperCase() || "U"
 
   return (
-    <header role="banner" data-testid="global-header" className="sticky top-0 z-30 flex h-16 items-center justify-end border-b border-[var(--border)] bg-[var(--surface)] px-6">
+    <header role="banner" data-testid="global-header" className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-[var(--border)] bg-[var(--surface)] px-4 lg:px-6">
+      {/* Hamburger menu - mobile only */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="lg:hidden"
+        onClick={onMenuToggle}
+        aria-label="Toggle menu"
+      >
+        <Menu className="h-6 w-6" />
+      </Button>
+      
+      {/* Desktop spacing */}
+      <div className="hidden lg:block flex-1" />
+
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"
