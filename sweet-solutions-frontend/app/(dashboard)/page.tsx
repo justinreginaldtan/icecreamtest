@@ -4,7 +4,9 @@ import { useState, useEffect } from "react"
 import { AppLayout } from "@/components/layout/app-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Clock, Users, FileText, TrendingUp, ChevronDown } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
+import { CardSkeleton } from "@/components/ui/card-skeleton"
+import { Clock, Users, FileText, TrendingUp, ChevronDown, Calendar } from "lucide-react"
 import { useAuth } from "@/lib/auth/auth-context"
 import { ShiftModal } from "@/components/features/shifts/shift-modal"
 import { useNav } from "@/lib/utils/navigation"
@@ -57,11 +59,58 @@ export default function DashboardPage() {
     return (
       <AppLayout>
         <div className="px-6 md:px-8 py-8">
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)] mx-auto"></div>
-              <p className="mt-2 text-[color:rgba(44,42,41,.6)]">Loading dashboard...</p>
+          {/* Header Skeleton */}
+          <div className="mb-8 flex items-center justify-between">
+            <div>
+              <Skeleton className="h-9 w-64 mb-2" />
+              <Skeleton className="h-5 w-48" />
             </div>
+            <Skeleton className="h-10 w-32" />
+          </div>
+
+          {/* Stats Cards Skeleton */}
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+          </div>
+
+          {/* Large Cards Skeleton */}
+          <div className="grid gap-6 lg:grid-cols-2">
+            <Card className="border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl">
+              <CardHeader>
+                <Skeleton className="h-6 w-32 mb-2" />
+                <Skeleton className="h-4 w-48" />
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl">
+              <CardHeader>
+                <Skeleton className="h-6 w-32 mb-2" />
+                <Skeleton className="h-4 w-48" />
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <Skeleton className="h-2 w-2 rounded-full mt-2" />
+                      <div className="flex-1 space-y-2">
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-3 w-3/4" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </AppLayout>
@@ -70,7 +119,7 @@ export default function DashboardPage() {
 
   return (
     <AppLayout>
-      <div className="px-6 md:px-8 py-8">
+      <div className="px-6 md:px-8 py-8 animate-in fade-in duration-300">
             <div className="mb-8 flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-bold text-[var(--text)]">Welcome back, {user?.name.split(" ")[0]}</h1>
@@ -85,7 +134,7 @@ export default function DashboardPage() {
               </Button>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-8">
               <Card className="border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl">
                 <CardHeader className="flex flex-row items-start justify-between pb-2">
                   <div className="space-y-1">
@@ -162,15 +211,24 @@ export default function DashboardPage() {
                       </div>
                     </div>
                   ) : (
-                    <div className="text-center py-8 space-y-4">
-                      <p className="text-[color:rgba(44,42,41,.7)]">No upcoming shifts — create the first one.</p>
+                    <div className="text-center py-12 space-y-4">
+                      <div className="mx-auto w-12 h-12 rounded-full bg-[var(--muted)] flex items-center justify-center">
+                        <Calendar className="h-6 w-6 text-[var(--brandBlue)]" />
+                      </div>
+                      <div className="space-y-2">
+                        <p className="font-medium text-[var(--text)]">No upcoming shifts</p>
+                        <p className="text-sm text-[color:rgba(44,42,41,.6)] max-w-[280px] mx-auto">
+                          You don't have any shifts scheduled yet. Create your first shift to get started.
+                        </p>
+                      </div>
                       <Button
                         onClick={() => setIsShiftModalOpen(true)}
                         className="bg-[var(--primary)] text-white hover:bg-[color:rgba(244,108,91,.9)] focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none"
                         data-testid="create-first-shift"
                         aria-label="Create your first shift"
                       >
-                        Create Shift
+                        <Calendar className="mr-2 h-4 w-4" />
+                        Create First Shift
                       </Button>
                     </div>
                   )}
@@ -184,7 +242,7 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-3 p-3 -mx-3 rounded-lg transition-colors duration-200 hover:bg-[var(--muted)] cursor-pointer">
                       <div className="h-2 w-2 rounded-full mt-2 bg-[var(--brandPink)]" />
                       <div className="flex-1">
                         <p className="text-sm font-medium text-[var(--text)]">New time-off request</p>
@@ -193,14 +251,14 @@ export default function DashboardPage() {
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-3 p-3 -mx-3 rounded-lg transition-colors duration-200 hover:bg-[var(--muted)] cursor-pointer">
                       <div className="h-2 w-2 rounded-full mt-2 bg-[var(--brandPink)]" />
                       <div className="flex-1">
                         <p className="text-sm font-medium text-[var(--text)]">Schedule updated</p>
                         <p className="text-xs text-[color:rgba(44,42,41,.6)]">5 new shifts added for next week</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-3 p-3 -mx-3 rounded-lg transition-colors duration-200 hover:bg-[var(--muted)] cursor-pointer">
                       <div className="h-2 w-2 rounded-full mt-2 bg-[var(--muted)]" />
                       <div className="flex-1">
                         <p className="text-sm font-medium text-[var(--text)]">Payroll processed</p>
