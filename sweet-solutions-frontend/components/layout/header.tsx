@@ -34,8 +34,8 @@ export function Header() {
             className="h-8 w-8 object-contain"
           />
           <div>
-            <h1 className="text-lg font-semibold text-[var(--text)]">Howdy Homemade</h1>
-            <p className="text-xs text-[color:rgba(44,42,41,.6)]">Sweet Solutions</p>
+            <h1 className="text-lg font-semibold text-[var(--brandBlue)]">Howdy Homemade</h1>
+            <p className="text-xs font-medium text-[var(--brandPink)]">Sweet Solutions</p>
           </div>
         </div>
       </div>

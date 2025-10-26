@@ -84,7 +84,7 @@ export function Sidebar() {
             />
             <div>
               <p className="text-xs font-medium text-[var(--brandBlue)]">Howdy Homemade</p>
-              <p className="text-xs text-[color:rgba(44,42,41,.5)]">Sweet Solutions</p>
+              <p className="text-xs font-medium text-[var(--brandPink)]">Sweet Solutions</p>
             </div>
           </div>
         </div>
