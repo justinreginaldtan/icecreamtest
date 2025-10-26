@@ -1,49 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Sweet Solutions Theme - Cream & Coral Palette with Howdy Brand Colors */
-  --background: #fff9f5; /* Cream background */
+  /* Howdy Ice Cream Brand Theme - Phase 1 Design System */
+  --background: #fff9f5; /* Cream background - maintained */
   --foreground: #2c2a29; /* Dark text */
   --card: #ffffff;
   --card-foreground: #2c2a29;
   --popover: #ffffff;
   --popover-foreground: #2c2a29;
-  --primary: #f46c5b; /* Coral accent */
+  --primary: #3BAFDA; /* Howdy Blue - new primary */
   --primary-foreground: #ffffff;
-  --secondary: #fff9f5;
-  --secondary-foreground: #2c2a29;
+  --secondary: #F6757B; /* Coral/Pink - new secondary */
+  --secondary-foreground: #ffffff;
   --muted: #f7efea;
   --muted-foreground: #6b6866;
-  --accent: #f46c5b;
+  --accent: #F6757B; /* Coral/Pink accent */
   --accent-foreground: #ffffff;
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
   --border: #e5e0db;
   --input: #e5e0db;
-  --ring: #49b6c2; /* Updated to brandBlue for focus rings */
+  --ring: #3BAFDA; /* Howdy Blue for focus rings */
   --radius: 0.75rem;
   --sidebar: #ffffff;
   --sidebar-foreground: #2c2a29;
-  --sidebar-primary: #f46c5b;
+  --sidebar-primary: #3BAFDA; /* Howdy Blue */
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #fff9f5;
   --sidebar-accent-foreground: #2c2a29;
   --sidebar-border: #e5e0db;
-  --sidebar-ring: #49b6c2; /* Updated to brandBlue */
+  --sidebar-ring: #3BAFDA; /* Howdy Blue */
 
-  /* Howdy Homemade brand colors - consolidated tokens */
-  --bg: #fff9f5;
+  /* Howdy Ice Cream brand colors - updated tokens */
+  --bg: #fff9f5; /* Cream background */
   --surface: #ffffff;
   --text: #2c2a29;
-  --brandBlue: #49b6c2; /* Teal-blue from Howdy header */
-  --brandPink: #f04e98; /* Hot pink banner */
+  --brandBlue: #3BAFDA; /* Howdy Blue - updated */
+  --brandPink: #F6757B; /* Coral/Pink - updated */
 }
 
 @theme inline {
-  --font-sans: "Poppins", "Poppins Fallback", system-ui, sans-serif;
+  --font-sans: "Poppins", "Nunito Sans", "system-ui", sans-serif;
   --font-mono: "Geist Mono", "Geist Mono Fallback";
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -91,5 +92,79 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Dashboard animations */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: calc(var(--animation-delay, 0) * 0.1s);
+  }
+  
+  /* Howdy Ice Cream brand utilities */
+  .text-howdy-blue {
+    color: var(--brandBlue);
+  }
+  
+  .text-howdy-pink {
+    color: var(--brandPink);
+  }
+  
+  .bg-howdy-blue {
+    background-color: var(--brandBlue);
+  }
+  
+  .bg-howdy-pink {
+    background-color: var(--brandPink);
+  }
+  
+  .border-howdy-blue {
+    border-color: var(--brandBlue);
+  }
+  
+  .border-howdy-pink {
+    border-color: var(--brandPink);
+  }
+  
+  /* Enhanced 8pt spacing utilities */
+  .space-8pt > * + * {
+    margin-top: 0.5rem; /* 8px */
+  }
+  
+  .space-16pt > * + * {
+    margin-top: 1rem; /* 16px */
+  }
+  
+  .space-24pt > * + * {
+    margin-top: 1.5rem; /* 24px */
+  }
+  
+  .space-32pt > * + * {
+    margin-top: 2rem; /* 32px */
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

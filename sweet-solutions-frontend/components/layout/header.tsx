@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Bell, LogOut, User } from "lucide-react"
+import { Bell, LogOut, User, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/lib/auth/auth-context"
 
@@ -24,15 +24,49 @@ export function Header() {
       .toUpperCase() || "U"
 
   return (
-    <header role="banner" data-testid="global-header" className="sticky top-0 z-30 flex h-16 items-center justify-end border-b border-[var(--border)] bg-[var(--surface)] px-6">
-      <div className="flex items-center gap-3">
+    <header role="banner" data-testid="global-header" className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-[var(--border)] bg-[var(--surface)] px-6 shadow-sm">
+      {/* Left: Logo/Brand */}
+      <div className="flex items-center">
+        <div className="flex items-center gap-3">
+          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[var(--brandBlue)] to-[var(--brandPink)] flex items-center justify-center">
+            <span className="text-white font-bold text-sm">H</span>
+          </div>
+          <div>
+            <h1 className="text-lg font-semibold text-[var(--text)]">Sweet Solutions</h1>
+            <p className="text-xs text-[color:rgba(44,42,41,.6)]">Howdy Ice Cream</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Right: Actions */}
+      <div className="flex items-center gap-4">
+        {/* Date Range Selector */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="flex items-center gap-2 text-sm font-medium text-[color:rgba(44,42,41,.7)] hover:text-[var(--text)] focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none"
+            >
+              This Week
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem>This Week</DropdownMenuItem>
+            <DropdownMenuItem>Last Week</DropdownMenuItem>
+            <DropdownMenuItem>This Month</DropdownMenuItem>
+            <DropdownMenuItem>Last Month</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* Notifications */}
         <Button
           variant="ghost"
           size="icon"
-          className="relative focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none"
+          className="relative h-10 w-10 focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none"
         >
-          <Bell className="h-5 w-5" />
-          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-[var(--brandPink)]" />
+          <Bell className="h-5 w-5 text-[color:rgba(44,42,41,.7)]" />
+          <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[var(--brandPink)]" />
         </Button>
 
         {/* User Menu */}
@@ -42,9 +76,9 @@ export function Header() {
               variant="ghost"
               className="relative h-10 w-10 rounded-full focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none"
             >
-              <Avatar>
-                <AvatarImage src="/placeholder.svg?height=40&width=40" alt="User" />
-                <AvatarFallback className="bg-[var(--primary)] text-white">{initials}</AvatarFallback>
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
+                <AvatarFallback className="bg-[var(--brandBlue)] text-white text-sm">{initials}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -56,11 +90,11 @@ export function Header() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
               <User className="mr-2 h-4 w-4" />
               Profile
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={logout}>
+            <DropdownMenuItem onClick={logout} className="cursor-pointer">
               <LogOut className="mr-2 h-4 w-4" />
               Log out
             </DropdownMenuItem>

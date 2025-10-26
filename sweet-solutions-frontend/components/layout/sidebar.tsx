@@ -35,21 +35,18 @@ export function Sidebar() {
   )
 
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-[var(--border)] bg-[var(--surface)]">
+    <aside className="fixed left-0 top-0 z-40 h-screen w-64 bg-[var(--surface)] shadow-lg">
       <div className="flex h-full flex-col">
-        <div className="flex h-16 items-center border-b border-[var(--border)] px-6">
-          <h1 className="text-xl font-semibold text-[var(--text)]">Sweet Solutions</h1>
-        </div>
-
-        <nav className="flex-1 space-y-6 px-3 py-4">
+        {/* Navigation Content */}
+        <nav className="flex-1 space-y-8 px-4 py-6">
           {Object.entries(sections).map(([sectionName, items]) => (
             <div key={sectionName}>
-              <div className="px-3 mb-2">
-                <p className="text-xs font-semibold uppercase tracking-wider text-[color:rgba(44,42,41,.5)]">
+              <div className="px-3 mb-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[color:rgba(44,42,41,.6)]">
                   {sectionName}
                 </p>
               </div>
-              <div className="space-y-1">
+              <div className="space-y-2">
                 {items.map((item) => {
                   const isActive = pathname === item.href
                   return (
@@ -57,14 +54,17 @@ export function Sidebar() {
                       key={item.name}
                       href={item.href}
                       className={cn(
-                        "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none",
+                        "relative flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none",
                         isActive
-                          ? "bg-[var(--brandBlue)] text-white hover:bg-[color:rgba(73,182,194,.9)] before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-[var(--brandPink)] before:rounded-l-lg"
-                          : "text-[var(--text)] hover:bg-[var(--muted)]",
+                          ? "bg-[var(--brandBlue)] text-white shadow-md hover:bg-[color:rgba(59,175,218,.9)]"
+                          : "text-[color:rgba(44,42,41,.7)] hover:bg-[color:rgba(59,175,218,.05)] hover:text-[var(--text)]",
                       )}
                       data-testid={`nav-${item.name.toLowerCase().replace(' ', '-')}`}
                     >
-                      <item.icon className="h-5 w-5" />
+                      <item.icon className={cn(
+                        "h-5 w-5 transition-colors duration-200",
+                        isActive ? "text-white" : "text-[color:rgba(44,42,41,.6)]"
+                      )} />
                       {item.name}
                     </Link>
                   )
@@ -74,8 +74,17 @@ export function Sidebar() {
           ))}
         </nav>
 
-        <div className="border-t border-[var(--border)] p-4 pt-3">
-          <p className="text-xs font-medium text-[var(--brandBlue)]">Howdy Homemade Ice Cream</p>
+        {/* Footer */}
+        <div className="border-t border-[var(--border)] p-4">
+          <div className="flex items-center gap-3 px-3">
+            <div className="h-6 w-6 rounded-md bg-gradient-to-br from-[var(--brandBlue)] to-[var(--brandPink)] flex items-center justify-center">
+              <span className="text-white font-bold text-xs">H</span>
+            </div>
+            <div>
+              <p className="text-xs font-medium text-[var(--brandBlue)]">Howdy Ice Cream</p>
+              <p className="text-xs text-[color:rgba(44,42,41,.5)]">Sweet Solutions</p>
+            </div>
+          </div>
         </div>
       </div>
     </aside>
