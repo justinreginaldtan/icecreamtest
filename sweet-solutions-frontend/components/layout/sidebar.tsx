@@ -77,11 +77,13 @@ export function Sidebar() {
         {/* Footer */}
         <div className="border-t border-[var(--border)] p-4">
           <div className="flex items-center gap-3 px-3">
-            <div className="h-6 w-6 rounded-md bg-gradient-to-br from-[var(--brandBlue)] to-[var(--brandPink)] flex items-center justify-center">
-              <span className="text-white font-bold text-xs">H</span>
-            </div>
+            <img 
+              src="/howdyslogo.png" 
+              alt="Howdy Homemade Logo" 
+              className="h-6 w-6 object-contain"
+            />
             <div>
-              <p className="text-xs font-medium text-[var(--brandBlue)]">Howdy Ice Cream</p>
+              <p className="text-xs font-medium text-[var(--brandBlue)]">Howdy Homemade</p>
               <p className="text-xs text-[color:rgba(44,42,41,.5)]">Sweet Solutions</p>
             </div>
           </div>

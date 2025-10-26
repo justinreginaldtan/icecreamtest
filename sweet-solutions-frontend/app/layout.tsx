@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: "Sweet Solutions - Scheduling & Payroll",
   description: "Internal scheduling and payroll management for Howdy Homemade",
   generator: "v0.app",
+  icons: {
+    icon: '/howdyslogo.png',
+  },
 }
 
 export default function RootLayout({

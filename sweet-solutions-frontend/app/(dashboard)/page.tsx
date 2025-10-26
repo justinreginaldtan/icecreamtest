@@ -58,6 +58,9 @@ export default function DashboardPage() {
   const myPendingRequests = timeOffRequests.filter((req) => req.employeeId === user?.id && req.status === "pending").length
   const myTotalHours = user?.role === "employee" ? (user.hoursPerWeek || 0) : totalHoursThisWeek
 
+  // Check if user is an employee
+  const isEmployee = user?.role === "employee"
+
   if (loading) {
     return (
       <AppLayout>
@@ -80,7 +83,7 @@ export default function DashboardPage() {
               <div className="animate-slide-up">
                 <h1 className="text-3xl font-bold text-[var(--text)] mb-2">Welcome back, {user?.name.split(" ")[0]}</h1>
                 <p className="text-[color:rgba(44,42,41,.6)] text-base">
-                  {user?.role === "employee" ? "Your schedule and team updates" : "Overview of your team and schedule"}
+                  {isEmployee ? "Your schedule and team updates" : "Overview of your team and schedule"}
                 </p>
               </div>
               <Button
@@ -92,113 +95,114 @@ export default function DashboardPage() {
               </Button>
             </div>
 
-            {/* KPI Cards with Enhanced Visual Hierarchy - Phase 3 */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-10">
-              {/* Secondary Metrics - Compact, subtle styling */}
-              <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
+            {/* KPI Cards - Minimal for employees, full for admins */}
+            <div className={`grid gap-4 mb-10 ${isEmployee ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-4'}`}>
+              {/* Total Employees - Hidden for employees */}
+              {!isEmployee && (
+                <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
+                  <CardHeader className="flex flex-row items-center justify-between pb-3 px-4 pt-4">
+                    <div className="space-y-1">
+                      <CardTitle className="text-xs font-medium text-[color:rgba(44,42,41,.6)]">
+                        Total Employees
+                      </CardTitle>
+                      <div className="text-3xl font-bold text-[var(--text)]">{totalEmployees}</div>
+                    </div>
+                    <div className="p-2.5 rounded-lg bg-[color:rgba(59,175,218,.08)] group-hover:bg-[color:rgba(59,175,218,.12)] transition-colors duration-300">
+                      <Users className="h-5 w-5 text-[color:rgba(59,175,218,.7)]" />
+                    </div>
+                  </CardHeader>
+                </Card>
+              )}
+
+              {/* Hours This Week - Minimal for employees */}
+              <Card className={`group shadow-sm rounded-xl transition-all duration-300 animate-slide-up ${isEmployee ? 'bg-gradient-to-br from-[color:rgba(142,213,226,.1)] to-[color:rgba(142,213,226,.05)] hover:from-[color:rgba(142,213,226,.15)] hover:to-[color:rgba(142,213,226,.08)] border-0' : 'border border-[var(--border)] bg-[var(--surface)] hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40'}`}>
                 <CardHeader className="flex flex-row items-center justify-between pb-3 px-4 pt-4">
                   <div className="space-y-1">
-                    <CardTitle className="text-xs font-medium text-[color:rgba(44,42,41,.6)]">
-                      {user?.role === "employee" ? "Team Members" : "Total Employees"}
+                    <CardTitle className="text-xs font-medium text-[color:rgba(26,26,26,.5)]">
+                      {isEmployee ? "Hours This Week" : "Hours This Week"}
                     </CardTitle>
-                    <div className="text-3xl font-bold text-[var(--text)]">{totalEmployees}</div>
+                    <div className={`${isEmployee ? 'text-2xl' : 'text-3xl'} font-bold text-[var(--text)]`}>{myTotalHours}</div>
                   </div>
-                  <div className="p-2.5 rounded-lg bg-[color:rgba(59,175,218,.08)] group-hover:bg-[color:rgba(59,175,218,.12)] transition-colors duration-300">
-                    <Users className="h-5 w-5 text-[color:rgba(59,175,218,.7)]" />
+                  <div className={`p-2.5 rounded-lg transition-colors duration-300 ${isEmployee ? 'bg-[color:rgba(142,213,226,.15)]' : 'bg-[color:rgba(59,175,218,.08)] group-hover:bg-[color:rgba(59,175,218,.12)]'}`}>
+                    <Clock className={`h-5 w-5 ${isEmployee ? 'text-[var(--brandBlue)]' : 'text-[color:rgba(59,175,218,.7)]'}`} />
                   </div>
                 </CardHeader>
               </Card>
 
-              <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
-                <CardHeader className="flex flex-row items-center justify-between pb-3 px-4 pt-4">
-                  <div className="space-y-1">
-                    <CardTitle className="text-xs font-medium text-[color:rgba(44,42,41,.6)]">
-                      {user?.role === "employee" ? "Hours/Week" : "Hours This Week"}
-                    </CardTitle>
-                    <div className="text-3xl font-bold text-[var(--text)]">{myTotalHours}</div>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-[color:rgba(59,175,218,.08)] group-hover:bg-[color:rgba(59,175,218,.12)] transition-colors duration-300">
-                    <Clock className="h-5 w-5 text-[color:rgba(59,175,218,.7)]" />
-                  </div>
-                </CardHeader>
-              </Card>
-
-              {/* Primary Action KPIs - Prominent with coral accent */}
-              <Card className="group border-2 border-[var(--brandPink)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow-md hover:-translate-y-0.5 hover:border-[var(--brandPink)]/90 transition-all duration-300 animate-slide-up cursor-pointer"
+              {/* My Requests / Pending Requests */}
+              <Card className={`group shadow-sm rounded-xl transition-all duration-300 animate-slide-up cursor-pointer ${isEmployee ? 'bg-gradient-to-br from-[color:rgba(255,107,157,.1)] to-[color:rgba(255,107,157,.05)] hover:from-[color:rgba(255,107,157,.15)] hover:to-[color:rgba(255,107,157,.08)] border-0' : 'border-2 border-[var(--brandPink)] bg-[var(--surface)] hover:shadow-md hover:-translate-y-0.5 hover:border-[var(--brandPink)]/90'}`}
                     onClick={() => nav.navigate('/requests')}>
                 <CardHeader className="pb-3 px-4 pt-4">
                   <div className="flex items-center justify-between mb-2">
-                    <CardTitle className="text-xs font-semibold uppercase tracking-wider text-[var(--brandPink)]">
-                      {user?.role === "employee" ? "My Requests" : "Pending Requests"}
+                    <CardTitle className={`text-xs font-semibold ${isEmployee ? 'text-[color:rgba(26,26,26,.5)]' : 'uppercase tracking-wider text-[var(--brandPink)]'}`}>
+                      {isEmployee ? "My Requests" : "Pending Requests"}
                     </CardTitle>
-                    {(user?.role === "employee" ? myPendingRequests : pendingRequests) > 0 && (
+                    {(isEmployee ? myPendingRequests : pendingRequests) > 0 && (
                       <span className="h-2 w-2 rounded-full bg-[var(--brandPink)] animate-pulse" />
                     )}
                   </div>
                   <div className="flex items-end justify-between">
-                    <div className="text-4xl font-bold text-[var(--text)]">
-                      {user?.role === "employee" ? myPendingRequests : pendingRequests}
+                    <div className={`font-bold text-[var(--text)] ${isEmployee ? 'text-2xl' : 'text-4xl'}`}>
+                      {isEmployee ? myPendingRequests : pendingRequests}
                     </div>
-                    <div className="p-2.5 rounded-lg bg-[var(--brandPink)] group-hover:scale-105 transition-transform duration-300">
-                      <FileText className="h-5 w-5 text-white" />
+                    <div className={`p-2.5 rounded-lg transition-transform duration-300 ${isEmployee ? 'bg-[var(--brandPink)]/20' : 'bg-[var(--brandPink)] group-hover:scale-105'}`}>
+                      <FileText className={`h-5 w-5 ${isEmployee ? 'text-[var(--brandPink)]' : 'text-white'}`} />
                     </div>
                   </div>
-                  {(user?.role === "employee" ? myPendingRequests : pendingRequests) > 0 && (
-                    <div className="mt-3 flex items-center text-xs text-[var(--brandPink)] font-medium">
+                </CardHeader>
+              </Card>
+
+              {/* My Shifts / Upcoming Shifts */}
+              <Card className={`group shadow-sm rounded-xl transition-all duration-300 animate-slide-up cursor-pointer ${isEmployee ? 'bg-gradient-to-br from-[color:rgba(142,213,226,.1)] to-[color:rgba(142,213,226,.05)] hover:from-[color:rgba(142,213,226,.15)] hover:to-[color:rgba(142,213,226,.08)] border-0' : 'border-2 border-[var(--brandBlue)] bg-[var(--surface)] hover:shadow-md hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/90'}`}
+                    onClick={() => nav.navigate('/schedule')}>
+                <CardHeader className="pb-3 px-4 pt-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <CardTitle className={`text-xs font-semibold ${isEmployee ? 'text-[color:rgba(26,26,26,.5)]' : 'uppercase tracking-wider text-[var(--brandBlue)]'}`}>
+                      {isEmployee ? "My Shifts" : "Upcoming Shifts"}
+                    </CardTitle>
+                    {!isEmployee && <span className="h-2 w-2 rounded-full bg-[var(--brandBlue)]" />}
+                  </div>
+                  <div className="flex items-end justify-between">
+                    <div className={`font-bold text-[var(--text)] ${isEmployee ? 'text-2xl' : 'text-4xl'}`}>
+                      {isEmployee ? myUpcomingShifts.length : upcomingShifts}
+                    </div>
+                    <div className={`p-2.5 rounded-lg transition-transform duration-300 ${isEmployee ? 'bg-[color:rgba(142,213,226,.15)]' : 'bg-[var(--brandBlue)] group-hover:scale-105'}`}>
+                      <Calendar className={`h-5 w-5 ${isEmployee ? 'text-[var(--brandBlue)]' : 'text-white'}`} />
+                    </div>
+                  </div>
+                  {!isEmployee && (
+                    <div className="mt-3 flex items-center text-xs text-[var(--brandBlue)] font-medium">
                       <ArrowRight className="h-3.5 w-3.5 mr-1 group-hover:translate-x-1 transition-transform duration-300" />
-                      {user?.role === "employee" ? "View requests" : "Review requests"}
+                      Manage schedule
                     </div>
                   )}
                 </CardHeader>
               </Card>
-
-              {/* Primary Action KPIs - Prominent with Howdy Blue accent */}
-              <Card className="group border-2 border-[var(--brandBlue)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow-md hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/90 transition-all duration-300 animate-slide-up cursor-pointer"
-                    onClick={() => nav.navigate('/schedule')}>
-                <CardHeader className="pb-3 px-4 pt-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <CardTitle className="text-xs font-semibold uppercase tracking-wider text-[var(--brandBlue)]">
-                      {user?.role === "employee" ? "My Shifts" : "Upcoming Shifts"}
-                    </CardTitle>
-                    <span className="h-2 w-2 rounded-full bg-[var(--brandBlue)]" />
-                  </div>
-                  <div className="flex items-end justify-between">
-                    <div className="text-4xl font-bold text-[var(--text)]">
-                      {user?.role === "employee" ? myUpcomingShifts.length : upcomingShifts}
-                    </div>
-                    <div className="p-2.5 rounded-lg bg-[var(--brandBlue)] group-hover:scale-105 transition-transform duration-300">
-                      <Calendar className="h-5 w-5 text-white" />
-                    </div>
-                  </div>
-                  <div className="mt-3 flex items-center text-xs text-[var(--brandBlue)] font-medium">
-                    <ArrowRight className="h-3.5 w-3.5 mr-1 group-hover:translate-x-1 transition-transform duration-300" />
-                    {user?.role === "employee" ? "View schedule" : "Manage schedule"}
-                  </div>
-                </CardHeader>
-              </Card>
             </div>
 
-            {/* Bottom Section - Phase 3 Enhanced */}
-            <div className="grid gap-6 lg:grid-cols-2">
-              {/* Next Shift Card with Enhanced Empty State */}
-              <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-lg font-semibold text-[var(--text)] flex items-center gap-2">
-                    <div className="p-2 rounded-lg bg-[color:rgba(59,175,218,.1)] group-hover:bg-[color:rgba(59,175,218,.15)] transition-colors duration-300">
-                      <Calendar className="h-5 w-5 text-[var(--brandBlue)]" />
+            {/* Bottom Section - Large Next Shift Card for Employees, Split for Admins */}
+            <div className={`grid gap-6 ${isEmployee ? 'lg:grid-cols-1 max-w-4xl mx-auto' : 'lg:grid-cols-2'}`}>
+              {/* Your Next Shift Card - Large and prominent for employees */}
+              <Card className={`group rounded-2xl transition-all duration-300 animate-slide-up ${isEmployee ? 'bg-gradient-to-br from-[color:rgba(142,213,226,.08)] to-white border border-[color:rgba(142,213,226,.2)] hover:shadow-md shadow-sm' : 'border border-[var(--border)] bg-[var(--surface)] shadow-sm hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40'}`}>
+                <CardHeader className={`${isEmployee ? 'pb-6 px-8 pt-8' : 'pb-4'}`}>
+                  <CardTitle className={`${isEmployee ? 'text-2xl' : 'text-lg'} font-bold text-[var(--text)] flex items-center gap-3 ${isEmployee ? 'mb-2' : ''}`}>
+                    <div className={`${isEmployee ? 'p-3 rounded-xl' : 'p-2 rounded-lg'} bg-[color:rgba(142,213,226,.15)] ${isEmployee ? 'group-hover:bg-[color:rgba(142,213,226,.2)]' : 'group-hover:bg-[color:rgba(142,213,226,.2)]'} transition-colors duration-300`}>
+                      <Calendar className={`${isEmployee ? 'h-6 w-6' : 'h-5 w-5'} text-[var(--brandBlue)]`} />
                     </div>
                     Your Next Shift
                   </CardTitle>
-                  <CardDescription className="text-sm">
-                    {user?.role === "employee" ? "Your upcoming schedule" : "Upcoming schedule details"}
-                  </CardDescription>
+                  {isEmployee && (
+                    <CardDescription className="text-[15px] text-[color:rgba(26,26,26,.6)] font-medium">
+                      Your upcoming schedule
+                    </CardDescription>
+                  )}
                 </CardHeader>
-                <CardContent>
+                <CardContent className={isEmployee ? 'px-8 pb-8' : ''}>
                   {nextShift ? (
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[color:rgba(59,175,218,.08)] to-[color:rgba(59,175,218,.03)] rounded-xl border border-[color:rgba(59,175,218,.1)]">
-                        <span className="text-sm font-medium text-[color:rgba(44,42,41,.7)]">Date</span>
-                        <span className="font-semibold text-lg text-[var(--text)]">
+                    <div className={`${isEmployee ? 'grid md:grid-cols-3 gap-4' : 'space-y-3'}`}>
+                      <div className={`flex ${isEmployee ? 'flex-col' : 'items-center justify-between'} ${isEmployee ? 'gap-2' : ''} p-${isEmployee ? '5' : '4'} bg-gradient-to-br from-[color:rgba(142,213,226,.12)] to-[color:rgba(142,213,226,.05)] ${isEmployee ? 'rounded-2xl' : 'rounded-xl'} border border-[color:rgba(142,213,226,.25)]`}>
+                        <span className={`text-xs font-semibold text-[color:rgba(26,26,26,.6)] ${isEmployee ? 'mb-2' : ''}`}>Date</span>
+                        <span className={`font-bold text-[var(--text)] ${isEmployee ? 'text-lg' : 'text-lg'}`}>
                           {new Date(nextShift.date).toLocaleDateString("en-US", {
                             weekday: "long",
                             month: "short",
@@ -206,32 +210,34 @@ export default function DashboardPage() {
                           })}
                         </span>
                       </div>
-                      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[color:rgba(59,175,218,.08)] to-[color:rgba(59,175,218,.03)] rounded-xl border border-[color:rgba(59,175,218,.1)]">
-                        <span className="text-sm font-medium text-[color:rgba(44,42,41,.7)]">Time</span>
-                        <span className="font-semibold text-lg text-[var(--text)]">
+                      <div className={`flex ${isEmployee ? 'flex-col' : 'items-center justify-between'} ${isEmployee ? 'gap-2' : ''} p-${isEmployee ? '5' : '4'} bg-gradient-to-br from-[color:rgba(142,213,226,.12)] to-[color:rgba(142,213,226,.05)] ${isEmployee ? 'rounded-2xl' : 'rounded-xl'} border border-[color:rgba(142,213,226,.25)]`}>
+                        <span className={`text-xs font-semibold text-[color:rgba(26,26,26,.6)] ${isEmployee ? 'mb-2' : ''}`}>Time</span>
+                        <span className={`font-bold text-[var(--text)] ${isEmployee ? 'text-lg' : 'text-lg'}`}>
                           {nextShift.startTime} - {nextShift.endTime}
                         </span>
                       </div>
-                      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[color:rgba(59,175,218,.08)] to-[color:rgba(59,175,218,.03)] rounded-xl border border-[color:rgba(59,175,218,.1)]">
-                        <span className="text-sm font-medium text-[color:rgba(44,42,41,.7)]">Role</span>
-                        <span className="font-semibold text-lg text-[var(--text)]">{nextShift.role}</span>
+                      <div className={`flex ${isEmployee ? 'flex-col' : 'items-center justify-between'} ${isEmployee ? 'gap-2' : ''} p-${isEmployee ? '5' : '4'} bg-gradient-to-br from-[color:rgba(142,213,226,.12)] to-[color:rgba(142,213,226,.05)] ${isEmployee ? 'rounded-2xl' : 'rounded-xl'} border border-[color:rgba(142,213,226,.25)]`}>
+                        <span className={`text-xs font-semibold text-[color:rgba(26,26,26,.6)] ${isEmployee ? 'mb-2' : ''}`}>Role</span>
+                        <span className={`font-bold text-[var(--text)] ${isEmployee ? 'text-lg' : 'text-lg'}`}>{nextShift.role}</span>
                       </div>
                     </div>
                   ) : (
-                    <div className="text-center py-16 space-y-6">
-                      <div className="mx-auto w-20 h-20 bg-gradient-to-br from-[color:rgba(59,175,218,.12)] to-[color:rgba(249,165,184,.08)] rounded-2xl flex items-center justify-center">
-                        <Calendar className="h-10 w-10 text-[color:rgba(59,175,218,.5)]" />
+                    <div className={`text-center ${isEmployee ? 'py-20' : 'py-16'} space-y-6`}>
+                      <div className={`mx-auto ${isEmployee ? 'w-24 h-24' : 'w-20 h-20'} bg-gradient-to-br from-[color:rgba(142,213,226,.15)] to-[color:rgba(255,107,157,.1)] rounded-3xl flex items-center justify-center shadow-sm`}>
+                        <Calendar className={`${isEmployee ? 'h-12 w-12' : 'h-10 w-10'} text-[color:rgba(142,213,226,.6)]`} />
                       </div>
                       <div className="space-y-3">
-                        <h3 className="text-xl font-semibold text-[var(--text)]">No upcoming shifts</h3>
-                        <p className="text-[color:rgba(44,42,41,.6)] max-w-sm mx-auto leading-relaxed">
-                          {user?.role === "employee" 
-                            ? "You don't have any shifts scheduled yet. Check back later or contact your manager."
+                        <h3 className={`${isEmployee ? 'text-2xl' : 'text-xl'} font-bold text-[var(--text)]`}>
+                          {isEmployee ? "You're all clear! 🎉" : "No upcoming shifts"}
+                        </h3>
+                        <p className={`text-[${isEmployee ? '15px' : '14px'}] text-[color:rgba(26,26,26,.6)] max-w-md mx-auto leading-relaxed font-medium`}>
+                          {isEmployee 
+                            ? "No shifts scheduled yet. Check back soon or reach out to your manager if you have questions."
                             : "Ready to schedule your first shift? Let's get your schedule set up."
                           }
                         </p>
                       </div>
-                      {user?.role !== "employee" && (
+                      {!isEmployee && (
                         <Button
                           onClick={() => setIsShiftModalOpen(true)}
                           className="bg-[var(--brandBlue)] text-white hover:bg-[var(--brandBlue)]/90 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none transition-all duration-300"
@@ -247,81 +253,49 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
 
-              {/* Recent Activity Card with Enhanced Design */}
-              <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-lg font-semibold text-[var(--text)] flex items-center gap-2">
-                    <div className="p-2 rounded-lg bg-[color:rgba(59,175,218,.1)] group-hover:bg-[color:rgba(59,175,218,.15)] transition-colors duration-300">
-                      <TrendingUp className="h-5 w-5 text-[var(--brandBlue)]" />
+              {/* Recent Activity Card - Hidden for employees */}
+              {!isEmployee && (
+                <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-lg font-semibold text-[var(--text)] flex items-center gap-2">
+                      <div className="p-2 rounded-lg bg-[color:rgba(59,175,218,.1)] group-hover:bg-[color:rgba(59,175,218,.15)] transition-colors duration-300">
+                        <TrendingUp className="h-5 w-5 text-[var(--brandBlue)]" />
+                      </div>
+                      Recent Activity
+                    </CardTitle>
+                    <CardDescription className="text-sm">
+                      Latest updates and changes
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2.5">
+                      <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(249,165,184,.06)] border border-[color:rgba(249,165,184,.1)] hover:bg-[color:rgba(249,165,184,.1)] hover:border-[color:rgba(249,165,184,.15)] transition-all duration-300">
+                        <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandPink)] flex-shrink-0 shadow-sm" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-[var(--text)]">New time-off request</p>
+                          <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">
+                            Chatcha requested time off for Jan 25-27
+                          </p>
+                        </div>
+                      </div>
+                      <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(59,175,218,.06)] border border-[color:rgba(59,175,218,.1)] hover:bg-[color:rgba(59,175,218,.1)] hover:border-[color:rgba(59,175,218,.15)] transition-all duration-300">
+                        <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandBlue)] flex-shrink-0 shadow-sm" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-[var(--text)]">Schedule updated</p>
+                          <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">5 new shifts added for next week</p>
+                        </div>
+                      </div>
+                      <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(59,175,218,.06)] border border-[color:rgba(59,175,218,.1)] hover:bg-[color:rgba(59,175,218,.1)] hover:border-[color:rgba(59,175,218,.15)] transition-all duration-300">
+                        <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandBlue)] flex-shrink-0 shadow-sm" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-[var(--text)]">Payroll processed</p>
+                          <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">January payroll completed successfully</p>
+                        </div>
+                      </div>
                     </div>
-                    Recent Activity
-                  </CardTitle>
-                  <CardDescription className="text-sm">
-                    {user?.role === "employee" ? "Your recent updates and changes" : "Latest updates and changes"}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2.5">
-                    {user?.role === "employee" ? (
-                      <>
-                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(249,165,184,.06)] border border-[color:rgba(249,165,184,.1)] hover:bg-[color:rgba(249,165,184,.1)] hover:border-[color:rgba(249,165,184,.15)] transition-all duration-300">
-                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandPink)] flex-shrink-0 shadow-sm" />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-[var(--text)]">Schedule updated</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">
-                              Your shifts for next week have been posted
-                            </p>
-                          </div>
-                        </div>
-                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(249,165,184,.06)] border border-[color:rgba(249,165,184,.1)] hover:bg-[color:rgba(249,165,184,.1)] hover:border-[color:rgba(249,165,184,.15)] transition-all duration-300">
-                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandPink)] flex-shrink-0 shadow-sm" />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-[var(--text)]">Time-off request</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">
-                              Your request for Jan 25-27 is pending approval
-                            </p>
-                          </div>
-                        </div>
-                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(59,175,218,.06)] border border-[color:rgba(59,175,218,.1)] hover:bg-[color:rgba(59,175,218,.1)] hover:border-[color:rgba(59,175,218,.15)] transition-all duration-300">
-                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandBlue)] flex-shrink-0 shadow-sm" />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-[var(--text)]">Team update</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">
-                              Welcome Sarah to the team this week
-                            </p>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(249,165,184,.06)] border border-[color:rgba(249,165,184,.1)] hover:bg-[color:rgba(249,165,184,.1)] hover:border-[color:rgba(249,165,184,.15)] transition-all duration-300">
-                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandPink)] flex-shrink-0 shadow-sm" />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-[var(--text)]">New time-off request</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">
-                              Chatcha requested time off for Jan 25-27
-                            </p>
-                          </div>
-                        </div>
-                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(59,175,218,.06)] border border-[color:rgba(59,175,218,.1)] hover:bg-[color:rgba(59,175,218,.1)] hover:border-[color:rgba(59,175,218,.15)] transition-all duration-300">
-                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandBlue)] flex-shrink-0 shadow-sm" />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-[var(--text)]">Schedule updated</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">5 new shifts added for next week</p>
-                          </div>
-                        </div>
-                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(59,175,218,.06)] border border-[color:rgba(59,175,218,.1)] hover:bg-[color:rgba(59,175,218,.1)] hover:border-[color:rgba(59,175,218,.15)] transition-all duration-300">
-                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandBlue)] flex-shrink-0 shadow-sm" />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-[var(--text)]">Payroll processed</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">January payroll completed successfully</p>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </div>
 
@@ -329,3 +303,4 @@ export default function DashboardPage() {
     </AppLayout>
   )
 }
+

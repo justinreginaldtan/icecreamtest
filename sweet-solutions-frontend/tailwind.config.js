@@ -75,7 +75,7 @@ module.exports = {
           DEFAULT: "var(--card)",
           foreground: "var(--card-foreground)",
         },
-        // Howdy Ice Cream brand colors - Phase 1
+        // Howdy Homemade brand colors - Phase 1
         brandBlue: "var(--brandBlue)",
         brandPink: "var(--brandPink)",
         howdyBlue: "#3BAFDA",

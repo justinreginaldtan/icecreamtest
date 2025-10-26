@@ -28,12 +28,14 @@ export function Header() {
       {/* Left: Logo/Brand */}
       <div className="flex items-center">
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[var(--brandBlue)] to-[var(--brandPink)] flex items-center justify-center">
-            <span className="text-white font-bold text-sm">H</span>
-          </div>
+          <img 
+            src="/howdyslogo.png" 
+            alt="Howdy Homemade Logo" 
+            className="h-8 w-8 object-contain"
+          />
           <div>
-            <h1 className="text-lg font-semibold text-[var(--text)]">Sweet Solutions</h1>
-            <p className="text-xs text-[color:rgba(44,42,41,.6)]">Howdy Ice Cream</p>
+            <h1 className="text-lg font-semibold text-[var(--text)]">Howdy Homemade</h1>
+            <p className="text-xs text-[color:rgba(44,42,41,.6)]">Sweet Solutions</p>
           </div>
         </div>
       </div>

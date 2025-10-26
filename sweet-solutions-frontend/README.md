@@ -1,6 +1,6 @@
 # Sweet Solutions Frontend
 
-Internal scheduling and payroll management frontend for Howdy Homemade Ice Cream.
+Internal scheduling and payroll management frontend for Howdy Homemade.
 
 ## Tech Stack
 
