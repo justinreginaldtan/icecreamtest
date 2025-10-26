@@ -92,118 +92,113 @@ export default function DashboardPage() {
               </Button>
             </div>
 
-            {/* KPI Cards with Enhanced Visual Hierarchy */}
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 mb-10">
-              {/* Contextual KPIs - Subtle styling */}
-              <Card className="border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow-md transition-all duration-200 animate-slide-up cursor-default">
-                <CardHeader className="flex flex-row items-start justify-between pb-3">
-                  <div className="space-y-2">
-                    <CardTitle className="text-sm font-medium text-[color:rgba(44,42,41,.7)]">
+            {/* KPI Cards with Enhanced Visual Hierarchy - Phase 3 */}
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-10">
+              {/* Secondary Metrics - Compact, subtle styling */}
+              <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
+                <CardHeader className="flex flex-row items-center justify-between pb-3 px-4 pt-4">
+                  <div className="space-y-1">
+                    <CardTitle className="text-xs font-medium text-[color:rgba(44,42,41,.6)]">
                       {user?.role === "employee" ? "Team Members" : "Total Employees"}
                     </CardTitle>
-                    <div className="text-2xl font-bold text-[var(--text)]">{totalEmployees}</div>
-                    <p className="text-xs text-[color:rgba(44,42,41,.6)]">
-                      {user?.role === "employee" ? "Your colleagues" : "Active team members"}
-                    </p>
+                    <div className="text-3xl font-bold text-[var(--text)]">{totalEmployees}</div>
                   </div>
-                  <div className="p-2 rounded-lg bg-[color:rgba(73,182,194,.1)]">
-                    <Users className="h-5 w-5 text-[color:rgba(73,182,194,.8)]" />
+                  <div className="p-2.5 rounded-lg bg-[color:rgba(59,175,218,.08)] group-hover:bg-[color:rgba(59,175,218,.12)] transition-colors duration-300">
+                    <Users className="h-5 w-5 text-[color:rgba(59,175,218,.7)]" />
                   </div>
                 </CardHeader>
               </Card>
 
-              <Card className="border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow-md transition-all duration-200 animate-slide-up cursor-default">
-                <CardHeader className="flex flex-row items-start justify-between pb-3">
-                  <div className="space-y-2">
-                    <CardTitle className="text-sm font-medium text-[color:rgba(44,42,41,.7)]">
-                      {user?.role === "employee" ? "Your Hours/Week" : "Hours This Week"}
+              <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
+                <CardHeader className="flex flex-row items-center justify-between pb-3 px-4 pt-4">
+                  <div className="space-y-1">
+                    <CardTitle className="text-xs font-medium text-[color:rgba(44,42,41,.6)]">
+                      {user?.role === "employee" ? "Hours/Week" : "Hours This Week"}
                     </CardTitle>
-                    <div className="text-2xl font-bold text-[var(--text)]">{myTotalHours}</div>
-                    <p className="text-xs text-[color:rgba(44,42,41,.6)]">
-                      {user?.role === "employee" ? "Your schedule" : "Scheduled hours"}
-                    </p>
+                    <div className="text-3xl font-bold text-[var(--text)]">{myTotalHours}</div>
                   </div>
-                  <div className="p-2 rounded-lg bg-[color:rgba(73,182,194,.1)]">
-                    <Clock className="h-5 w-5 text-[color:rgba(73,182,194,.8)]" />
+                  <div className="p-2.5 rounded-lg bg-[color:rgba(59,175,218,.08)] group-hover:bg-[color:rgba(59,175,218,.12)] transition-colors duration-300">
+                    <Clock className="h-5 w-5 text-[color:rgba(59,175,218,.7)]" />
                   </div>
                 </CardHeader>
               </Card>
 
-              {/* Actionable KPIs - Enhanced styling with primary brand color */}
-              <Card className="border-[var(--primary)] bg-[var(--surface)] shadow-md rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all duration-200 animate-slide-up cursor-pointer group"
+              {/* Primary Action KPIs - Prominent with coral accent */}
+              <Card className="group border-2 border-[var(--brandPink)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow-md hover:-translate-y-0.5 hover:border-[var(--brandPink)]/90 transition-all duration-300 animate-slide-up cursor-pointer"
                     onClick={() => nav.navigate('/requests')}>
-                <CardHeader className="flex flex-row items-start justify-between pb-3">
-                  <div className="space-y-2">
-                    <CardTitle className="text-sm font-medium text-[var(--primary)]">
+                <CardHeader className="pb-3 px-4 pt-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <CardTitle className="text-xs font-semibold uppercase tracking-wider text-[var(--brandPink)]">
                       {user?.role === "employee" ? "My Requests" : "Pending Requests"}
                     </CardTitle>
-                    <div className="text-2xl font-bold text-[var(--text)]">
+                    {(user?.role === "employee" ? myPendingRequests : pendingRequests) > 0 && (
+                      <span className="h-2 w-2 rounded-full bg-[var(--brandPink)] animate-pulse" />
+                    )}
+                  </div>
+                  <div className="flex items-end justify-between">
+                    <div className="text-4xl font-bold text-[var(--text)]">
                       {user?.role === "employee" ? myPendingRequests : pendingRequests}
                     </div>
-                    <p className="text-xs text-[color:rgba(44,42,41,.6)]">
-                      {user?.role === "employee" ? "Your requests" : "Awaiting approval"}
-                    </p>
+                    <div className="p-2.5 rounded-lg bg-[var(--brandPink)] group-hover:scale-105 transition-transform duration-300">
+                      <FileText className="h-5 w-5 text-white" />
+                    </div>
                   </div>
-                  <div className="p-2 rounded-lg bg-[var(--primary)] group-hover:bg-[color:rgba(244,108,91,.9)] transition-colors duration-200">
-                    <FileText className="h-5 w-5 text-white" />
-                  </div>
-                </CardHeader>
-                {(user?.role === "employee" ? myPendingRequests : pendingRequests) > 0 && (
-                  <div className="px-6 pb-3">
-                    <div className="flex items-center text-xs text-[var(--primary)] font-medium">
-                      <ArrowRight className="h-3 w-3 mr-1" />
+                  {(user?.role === "employee" ? myPendingRequests : pendingRequests) > 0 && (
+                    <div className="mt-3 flex items-center text-xs text-[var(--brandPink)] font-medium">
+                      <ArrowRight className="h-3.5 w-3.5 mr-1 group-hover:translate-x-1 transition-transform duration-300" />
                       {user?.role === "employee" ? "View requests" : "Review requests"}
                     </div>
-                  </div>
-                )}
+                  )}
+                </CardHeader>
               </Card>
 
-              <Card className="border-[var(--brandBlue)] bg-[var(--surface)] shadow-md rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all duration-200 animate-slide-up cursor-pointer group"
+              {/* Primary Action KPIs - Prominent with Howdy Blue accent */}
+              <Card className="group border-2 border-[var(--brandBlue)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow-md hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/90 transition-all duration-300 animate-slide-up cursor-pointer"
                     onClick={() => nav.navigate('/schedule')}>
-                <CardHeader className="flex flex-row items-start justify-between pb-3">
-                  <div className="space-y-2">
-                    <CardTitle className="text-sm font-medium text-[var(--brandBlue)]">
+                <CardHeader className="pb-3 px-4 pt-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <CardTitle className="text-xs font-semibold uppercase tracking-wider text-[var(--brandBlue)]">
                       {user?.role === "employee" ? "My Shifts" : "Upcoming Shifts"}
                     </CardTitle>
-                    <div className="text-2xl font-bold text-[var(--text)]">
+                    <span className="h-2 w-2 rounded-full bg-[var(--brandBlue)]" />
+                  </div>
+                  <div className="flex items-end justify-between">
+                    <div className="text-4xl font-bold text-[var(--text)]">
                       {user?.role === "employee" ? myUpcomingShifts.length : upcomingShifts}
                     </div>
-                    <p className="text-xs text-[color:rgba(44,42,41,.6)]">
-                      {user?.role === "employee" ? "Your schedule" : "Next 7 days"}
-                    </p>
+                    <div className="p-2.5 rounded-lg bg-[var(--brandBlue)] group-hover:scale-105 transition-transform duration-300">
+                      <Calendar className="h-5 w-5 text-white" />
+                    </div>
                   </div>
-                  <div className="p-2 rounded-lg bg-[var(--brandBlue)] group-hover:bg-[color:rgba(73,182,194,.9)] transition-colors duration-200">
-                    <Calendar className="h-5 w-5 text-white" />
-                  </div>
-                </CardHeader>
-                <div className="px-6 pb-3">
-                  <div className="flex items-center text-xs text-[var(--brandBlue)] font-medium">
-                    <ArrowRight className="h-3 w-3 mr-1" />
+                  <div className="mt-3 flex items-center text-xs text-[var(--brandBlue)] font-medium">
+                    <ArrowRight className="h-3.5 w-3.5 mr-1 group-hover:translate-x-1 transition-transform duration-300" />
                     {user?.role === "employee" ? "View schedule" : "Manage schedule"}
                   </div>
-                </div>
+                </CardHeader>
               </Card>
             </div>
 
-            {/* Bottom Section with Enhanced Spacing */}
-            <div className="grid gap-8 lg:grid-cols-2">
+            {/* Bottom Section - Phase 3 Enhanced */}
+            <div className="grid gap-6 lg:grid-cols-2">
               {/* Next Shift Card with Enhanced Empty State */}
-              <Card className="border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow-md transition-all duration-200 animate-slide-up">
+              <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
                 <CardHeader className="pb-4">
-                  <CardTitle className="text-[var(--text)] flex items-center gap-2">
-                    <Calendar className="h-5 w-5 text-[var(--brandBlue)]" />
-                    {user?.role === "employee" ? "Your Next Shift" : "Your Next Shift"}
+                  <CardTitle className="text-lg font-semibold text-[var(--text)] flex items-center gap-2">
+                    <div className="p-2 rounded-lg bg-[color:rgba(59,175,218,.1)] group-hover:bg-[color:rgba(59,175,218,.15)] transition-colors duration-300">
+                      <Calendar className="h-5 w-5 text-[var(--brandBlue)]" />
+                    </div>
+                    Your Next Shift
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-sm">
                     {user?.role === "employee" ? "Your upcoming schedule" : "Upcoming schedule details"}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   {nextShift ? (
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between p-3 bg-[color:rgba(73,182,194,.05)] rounded-lg">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[color:rgba(59,175,218,.08)] to-[color:rgba(59,175,218,.03)] rounded-xl border border-[color:rgba(59,175,218,.1)]">
                         <span className="text-sm font-medium text-[color:rgba(44,42,41,.7)]">Date</span>
-                        <span className="font-semibold text-[var(--text)]">
+                        <span className="font-semibold text-lg text-[var(--text)]">
                           {new Date(nextShift.date).toLocaleDateString("en-US", {
                             weekday: "long",
                             month: "short",
@@ -211,25 +206,25 @@ export default function DashboardPage() {
                           })}
                         </span>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-[color:rgba(73,182,194,.05)] rounded-lg">
+                      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[color:rgba(59,175,218,.08)] to-[color:rgba(59,175,218,.03)] rounded-xl border border-[color:rgba(59,175,218,.1)]">
                         <span className="text-sm font-medium text-[color:rgba(44,42,41,.7)]">Time</span>
-                        <span className="font-semibold text-[var(--text)]">
+                        <span className="font-semibold text-lg text-[var(--text)]">
                           {nextShift.startTime} - {nextShift.endTime}
                         </span>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-[color:rgba(73,182,194,.05)] rounded-lg">
+                      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[color:rgba(59,175,218,.08)] to-[color:rgba(59,175,218,.03)] rounded-xl border border-[color:rgba(59,175,218,.1)]">
                         <span className="text-sm font-medium text-[color:rgba(44,42,41,.7)]">Role</span>
-                        <span className="font-semibold text-[var(--text)]">{nextShift.role}</span>
+                        <span className="font-semibold text-lg text-[var(--text)]">{nextShift.role}</span>
                       </div>
                     </div>
                   ) : (
-                    <div className="text-center py-12 space-y-6">
-                      <div className="mx-auto w-16 h-16 bg-[color:rgba(73,182,194,.1)] rounded-full flex items-center justify-center">
-                        <Calendar className="h-8 w-8 text-[color:rgba(73,182,194,.6)]" />
+                    <div className="text-center py-16 space-y-6">
+                      <div className="mx-auto w-20 h-20 bg-gradient-to-br from-[color:rgba(59,175,218,.12)] to-[color:rgba(249,165,184,.08)] rounded-2xl flex items-center justify-center">
+                        <Calendar className="h-10 w-10 text-[color:rgba(59,175,218,.5)]" />
                       </div>
-                      <div className="space-y-2">
-                        <h3 className="text-lg font-semibold text-[var(--text)]">No upcoming shifts</h3>
-                        <p className="text-[color:rgba(44,42,41,.6)] max-w-sm mx-auto">
+                      <div className="space-y-3">
+                        <h3 className="text-xl font-semibold text-[var(--text)]">No upcoming shifts</h3>
+                        <p className="text-[color:rgba(44,42,41,.6)] max-w-sm mx-auto leading-relaxed">
                           {user?.role === "employee" 
                             ? "You don't have any shifts scheduled yet. Check back later or contact your manager."
                             : "Ready to schedule your first shift? Let's get your schedule set up."
@@ -239,7 +234,7 @@ export default function DashboardPage() {
                       {user?.role !== "employee" && (
                         <Button
                           onClick={() => setIsShiftModalOpen(true)}
-                          className="bg-[var(--primary)] text-white hover:bg-[color:rgba(244,108,91,.9)] focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none transition-all duration-200"
+                          className="bg-[var(--brandBlue)] text-white hover:bg-[var(--brandBlue)]/90 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none transition-all duration-300"
                           data-testid="create-first-shift"
                           aria-label="Create your first shift"
                         >
@@ -253,43 +248,45 @@ export default function DashboardPage() {
               </Card>
 
               {/* Recent Activity Card with Enhanced Design */}
-              <Card className="border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow-md transition-all duration-200 animate-slide-up">
+              <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
                 <CardHeader className="pb-4">
-                  <CardTitle className="text-[var(--text)] flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5 text-[var(--brandBlue)]" />
+                  <CardTitle className="text-lg font-semibold text-[var(--text)] flex items-center gap-2">
+                    <div className="p-2 rounded-lg bg-[color:rgba(59,175,218,.1)] group-hover:bg-[color:rgba(59,175,218,.15)] transition-colors duration-300">
+                      <TrendingUp className="h-5 w-5 text-[var(--brandBlue)]" />
+                    </div>
                     Recent Activity
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-sm">
                     {user?.role === "employee" ? "Your recent updates and changes" : "Latest updates and changes"}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className="space-y-2.5">
                     {user?.role === "employee" ? (
                       <>
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-[color:rgba(73,182,194,.05)] transition-colors duration-200">
-                          <div className="h-3 w-3 rounded-full mt-1.5 bg-[var(--brandPink)] flex-shrink-0" />
-                          <div className="flex-1">
+                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(249,165,184,.06)] border border-[color:rgba(249,165,184,.1)] hover:bg-[color:rgba(249,165,184,.1)] hover:border-[color:rgba(249,165,184,.15)] transition-all duration-300">
+                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandPink)] flex-shrink-0 shadow-sm" />
+                          <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-[var(--text)]">Schedule updated</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-1">
+                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">
                               Your shifts for next week have been posted
                             </p>
                           </div>
                         </div>
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-[color:rgba(73,182,194,.05)] transition-colors duration-200">
-                          <div className="h-3 w-3 rounded-full mt-1.5 bg-[var(--brandPink)] flex-shrink-0" />
-                          <div className="flex-1">
+                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(249,165,184,.06)] border border-[color:rgba(249,165,184,.1)] hover:bg-[color:rgba(249,165,184,.1)] hover:border-[color:rgba(249,165,184,.15)] transition-all duration-300">
+                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandPink)] flex-shrink-0 shadow-sm" />
+                          <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-[var(--text)]">Time-off request</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-1">
+                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">
                               Your request for Jan 25-27 is pending approval
                             </p>
                           </div>
                         </div>
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-[color:rgba(73,182,194,.05)] transition-colors duration-200">
-                          <div className="h-3 w-3 rounded-full mt-1.5 bg-[color:rgba(73,182,194,.4)] flex-shrink-0" />
-                          <div className="flex-1">
+                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(59,175,218,.06)] border border-[color:rgba(59,175,218,.1)] hover:bg-[color:rgba(59,175,218,.1)] hover:border-[color:rgba(59,175,218,.15)] transition-all duration-300">
+                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandBlue)] flex-shrink-0 shadow-sm" />
+                          <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-[var(--text)]">Team update</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-1">
+                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">
                               Welcome Sarah to the team this week
                             </p>
                           </div>
@@ -297,27 +294,27 @@ export default function DashboardPage() {
                       </>
                     ) : (
                       <>
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-[color:rgba(73,182,194,.05)] transition-colors duration-200">
-                          <div className="h-3 w-3 rounded-full mt-1.5 bg-[var(--brandPink)] flex-shrink-0" />
-                          <div className="flex-1">
+                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(249,165,184,.06)] border border-[color:rgba(249,165,184,.1)] hover:bg-[color:rgba(249,165,184,.1)] hover:border-[color:rgba(249,165,184,.15)] transition-all duration-300">
+                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandPink)] flex-shrink-0 shadow-sm" />
+                          <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-[var(--text)]">New time-off request</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-1">
+                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">
                               Chatcha requested time off for Jan 25-27
                             </p>
                           </div>
                         </div>
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-[color:rgba(73,182,194,.05)] transition-colors duration-200">
-                          <div className="h-3 w-3 rounded-full mt-1.5 bg-[var(--brandPink)] flex-shrink-0" />
-                          <div className="flex-1">
+                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(59,175,218,.06)] border border-[color:rgba(59,175,218,.1)] hover:bg-[color:rgba(59,175,218,.1)] hover:border-[color:rgba(59,175,218,.15)] transition-all duration-300">
+                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandBlue)] flex-shrink-0 shadow-sm" />
+                          <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-[var(--text)]">Schedule updated</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-1">5 new shifts added for next week</p>
+                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">5 new shifts added for next week</p>
                           </div>
                         </div>
-                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-[color:rgba(73,182,194,.05)] transition-colors duration-200">
-                          <div className="h-3 w-3 rounded-full mt-1.5 bg-[color:rgba(73,182,194,.4)] flex-shrink-0" />
-                          <div className="flex-1">
+                        <div className="group/item flex items-start gap-3 p-3.5 rounded-lg bg-[color:rgba(59,175,218,.06)] border border-[color:rgba(59,175,218,.1)] hover:bg-[color:rgba(59,175,218,.1)] hover:border-[color:rgba(59,175,218,.15)] transition-all duration-300">
+                          <div className="h-2 w-2 rounded-full mt-1.5 bg-[var(--brandBlue)] flex-shrink-0 shadow-sm" />
+                          <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-[var(--text)]">Payroll processed</p>
-                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-1">January payroll completed successfully</p>
+                            <p className="text-xs text-[color:rgba(44,42,41,.6)] mt-0.5 leading-relaxed">January payroll completed successfully</p>
                           </div>
                         </div>
                       </>

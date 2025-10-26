@@ -79,7 +79,7 @@ module.exports = {
         brandBlue: "var(--brandBlue)",
         brandPink: "var(--brandPink)",
         howdyBlue: "#3BAFDA",
-        howdyPink: "#F6757B",
+        howdyPink: "#F9A5B8",
       },
       borderRadius: {
         lg: "var(--radius)",
