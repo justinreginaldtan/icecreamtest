@@ -35,7 +35,7 @@ export function Sidebar() {
   )
 
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 bg-[var(--surface)] shadow-lg">
+    <aside className="fixed left-0 top-0 z-40 h-screen w-64 shadow-lg border-r border-[color:rgba(0,0,0,0.05)]" style={{ backgroundColor: '#E5F7F8' }}>
       <div className="flex h-full flex-col">
         {/* Navigation Content */}
         <nav className="flex-1 space-y-8 px-4 py-6">

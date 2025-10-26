@@ -99,13 +99,13 @@ export default function DashboardPage() {
             <div className={`grid gap-4 mb-10 ${isEmployee ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-4'}`}>
               {/* Total Employees - Hidden for employees */}
               {!isEmployee && (
-                <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
+                <Card className="group bg-white shadow-sm rounded-xl hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 animate-slide-up border-2 border-[#F7F5F3] hover:border-[#E5E0DB]">
                   <CardHeader className="flex flex-row items-center justify-between pb-3 px-4 pt-4">
                     <div className="space-y-1">
                       <CardTitle className="text-xs font-medium text-[color:rgba(44,42,41,.6)]">
                         Total Employees
                       </CardTitle>
-                      <div className="text-3xl font-bold text-[var(--text)]">{totalEmployees}</div>
+                      <div className="text-3xl font-bold text-[#2C2A29]">{totalEmployees}</div>
                     </div>
                     <div className="p-2.5 rounded-lg bg-[color:rgba(59,175,218,.08)] group-hover:bg-[color:rgba(59,175,218,.12)] transition-colors duration-300">
                       <Users className="h-5 w-5 text-[color:rgba(59,175,218,.7)]" />
@@ -115,63 +115,63 @@ export default function DashboardPage() {
               )}
 
               {/* Hours This Week - Minimal for employees */}
-              <Card className={`group shadow-sm rounded-xl transition-all duration-300 animate-slide-up ${isEmployee ? 'bg-gradient-to-br from-[color:rgba(142,213,226,.1)] to-[color:rgba(142,213,226,.05)] hover:from-[color:rgba(142,213,226,.15)] hover:to-[color:rgba(142,213,226,.08)] border-0' : 'border border-[var(--border)] bg-[var(--surface)] hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40'}`}>
+              <Card className={`group shadow-sm rounded-xl transition-all duration-300 animate-slide-up ${isEmployee ? 'bg-white hover:from-[color:rgba(142,213,226,.05)] hover:shadow-md' : 'bg-white hover:shadow-md hover:-translate-y-0.5'} border-2 border-[#E5F7F8] hover:border-[#B8EBEE]`}>
                 <CardHeader className="flex flex-row items-center justify-between pb-3 px-4 pt-4">
                   <div className="space-y-1">
-                    <CardTitle className="text-xs font-medium text-[color:rgba(26,26,26,.5)]">
+                    <CardTitle className="text-xs font-medium text-[color:rgba(44,42,41,.6)]">
                       {isEmployee ? "Hours This Week" : "Hours This Week"}
                     </CardTitle>
-                    <div className={`${isEmployee ? 'text-2xl' : 'text-3xl'} font-bold text-[var(--text)]`}>{myTotalHours}</div>
+                    <div className={`${isEmployee ? 'text-2xl' : 'text-3xl'} font-bold text-[#2C2A29]`}>{myTotalHours}</div>
                   </div>
-                  <div className={`p-2.5 rounded-lg transition-colors duration-300 ${isEmployee ? 'bg-[color:rgba(142,213,226,.15)]' : 'bg-[color:rgba(59,175,218,.08)] group-hover:bg-[color:rgba(59,175,218,.12)]'}`}>
-                    <Clock className={`h-5 w-5 ${isEmployee ? 'text-[var(--brandBlue)]' : 'text-[color:rgba(59,175,218,.7)]'}`} />
+                  <div className={`p-2.5 rounded-lg transition-colors duration-300 ${isEmployee ? 'bg-[color:rgba(229,247,248,.4)]' : 'bg-[color:rgba(229,247,248,.3)] group-hover:bg-[color:rgba(229,247,248,.5)]'}`}>
+                    <Clock className={`h-5 w-5 text-[#3BAFDA]`} />
                   </div>
                 </CardHeader>
               </Card>
 
               {/* My Requests / Pending Requests */}
-              <Card className={`group shadow-sm rounded-xl transition-all duration-300 animate-slide-up cursor-pointer ${isEmployee ? 'bg-gradient-to-br from-[color:rgba(255,107,157,.1)] to-[color:rgba(255,107,157,.05)] hover:from-[color:rgba(255,107,157,.15)] hover:to-[color:rgba(255,107,157,.08)] border-0' : 'border-2 border-[var(--brandPink)] bg-[var(--surface)] hover:shadow-md hover:-translate-y-0.5 hover:border-[var(--brandPink)]/90'}`}
+              <Card className={`group shadow-sm rounded-xl transition-all duration-300 animate-slide-up cursor-pointer bg-white border-2 border-[#FEF0F0] hover:border-[#FCD5D5] hover:shadow-md hover:-translate-y-0.5`}
                     onClick={() => nav.navigate('/requests')}>
                 <CardHeader className="pb-3 px-4 pt-4">
                   <div className="flex items-center justify-between mb-2">
-                    <CardTitle className={`text-xs font-semibold ${isEmployee ? 'text-[color:rgba(26,26,26,.5)]' : 'uppercase tracking-wider text-[var(--brandPink)]'}`}>
+                    <CardTitle className={`text-xs font-semibold ${isEmployee ? 'text-[color:rgba(44,42,41,.6)]' : 'uppercase tracking-wider'}`} style={{ color: isEmployee ? 'rgba(44,42,41,.6)' : '#F46C5B' }}>
                       {isEmployee ? "My Requests" : "Pending Requests"}
                     </CardTitle>
                     {(isEmployee ? myPendingRequests : pendingRequests) > 0 && (
-                      <span className="h-2 w-2 rounded-full bg-[var(--brandPink)] animate-pulse" />
+                      <span className="h-2 w-2 rounded-full bg-[#F46C5B] animate-pulse" />
                     )}
                   </div>
                   <div className="flex items-end justify-between">
-                    <div className={`font-bold text-[var(--text)] ${isEmployee ? 'text-2xl' : 'text-4xl'}`}>
+                    <div className={`font-bold text-[#2C2A29] ${isEmployee ? 'text-2xl' : 'text-4xl'}`}>
                       {isEmployee ? myPendingRequests : pendingRequests}
                     </div>
-                    <div className={`p-2.5 rounded-lg transition-transform duration-300 ${isEmployee ? 'bg-[var(--brandPink)]/20' : 'bg-[var(--brandPink)] group-hover:scale-105'}`}>
-                      <FileText className={`h-5 w-5 ${isEmployee ? 'text-[var(--brandPink)]' : 'text-white'}`} />
+                    <div className={`p-2.5 rounded-lg transition-transform duration-300 ${isEmployee ? 'bg-[#FFF5F7]' : 'bg-[#F46C5B] group-hover:scale-105'}`}>
+                      <FileText className={`h-5 w-5 ${isEmployee ? 'text-[#F46C5B]' : 'text-white'}`} />
                     </div>
                   </div>
                 </CardHeader>
               </Card>
 
               {/* My Shifts / Upcoming Shifts */}
-              <Card className={`group shadow-sm rounded-xl transition-all duration-300 animate-slide-up cursor-pointer ${isEmployee ? 'bg-gradient-to-br from-[color:rgba(142,213,226,.1)] to-[color:rgba(142,213,226,.05)] hover:from-[color:rgba(142,213,226,.15)] hover:to-[color:rgba(142,213,226,.08)] border-0' : 'border-2 border-[var(--brandBlue)] bg-[var(--surface)] hover:shadow-md hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/90'}`}
+              <Card className={`group shadow-sm rounded-xl transition-all duration-300 animate-slide-up cursor-pointer bg-white border-2 border-[#E5F7F8] hover:border-[#B8EBEE] hover:shadow-md hover:-translate-y-0.5`}
                     onClick={() => nav.navigate('/schedule')}>
                 <CardHeader className="pb-3 px-4 pt-4">
                   <div className="flex items-center justify-between mb-2">
-                    <CardTitle className={`text-xs font-semibold ${isEmployee ? 'text-[color:rgba(26,26,26,.5)]' : 'uppercase tracking-wider text-[var(--brandBlue)]'}`}>
+                    <CardTitle className={`text-xs font-semibold ${isEmployee ? 'text-[color:rgba(44,42,41,.6)]' : 'uppercase tracking-wider'}`} style={{ color: isEmployee ? 'rgba(44,42,41,.6)' : '#3BAFDA' }}>
                       {isEmployee ? "My Shifts" : "Upcoming Shifts"}
                     </CardTitle>
-                    {!isEmployee && <span className="h-2 w-2 rounded-full bg-[var(--brandBlue)]" />}
+                    {!isEmployee && <span className="h-2 w-2 rounded-full bg-[#3BAFDA]" />}
                   </div>
                   <div className="flex items-end justify-between">
-                    <div className={`font-bold text-[var(--text)] ${isEmployee ? 'text-2xl' : 'text-4xl'}`}>
+                    <div className={`font-bold text-[#2C2A29] ${isEmployee ? 'text-2xl' : 'text-4xl'}`}>
                       {isEmployee ? myUpcomingShifts.length : upcomingShifts}
                     </div>
-                    <div className={`p-2.5 rounded-lg transition-transform duration-300 ${isEmployee ? 'bg-[color:rgba(142,213,226,.15)]' : 'bg-[var(--brandBlue)] group-hover:scale-105'}`}>
-                      <Calendar className={`h-5 w-5 ${isEmployee ? 'text-[var(--brandBlue)]' : 'text-white'}`} />
+                    <div className={`p-2.5 rounded-lg transition-transform duration-300 ${isEmployee ? 'bg-[color:rgba(229,247,248,.4)]' : 'bg-[#3BAFDA] group-hover:scale-105'}`}>
+                      <Calendar className={`h-5 w-5 ${isEmployee ? 'text-[#3BAFDA]' : 'text-white'}`} />
                     </div>
                   </div>
                   {!isEmployee && (
-                    <div className="mt-3 flex items-center text-xs text-[var(--brandBlue)] font-medium">
+                    <div className="mt-3 flex items-center text-xs font-medium" style={{ color: '#3BAFDA' }}>
                       <ArrowRight className="h-3.5 w-3.5 mr-1 group-hover:translate-x-1 transition-transform duration-300" />
                       Manage schedule
                     </div>
@@ -183,16 +183,16 @@ export default function DashboardPage() {
             {/* Bottom Section - Large Next Shift Card for Employees, Split for Admins */}
             <div className={`grid gap-6 ${isEmployee ? 'lg:grid-cols-1 max-w-4xl mx-auto' : 'lg:grid-cols-2'}`}>
               {/* Your Next Shift Card - Large and prominent for employees */}
-              <Card className={`group rounded-2xl transition-all duration-300 animate-slide-up ${isEmployee ? 'bg-gradient-to-br from-[color:rgba(142,213,226,.08)] to-white border border-[color:rgba(142,213,226,.2)] hover:shadow-md shadow-sm' : 'border border-[var(--border)] bg-[var(--surface)] shadow-sm hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40'}`}>
+              <Card className={`group rounded-2xl transition-all duration-300 animate-slide-up bg-white border-2 border-[#E5F7F8] hover:border-[#B8EBEE] ${isEmployee ? 'shadow-md' : 'shadow-sm hover:shadow-md'} hover:-translate-y-0.5`}>
                 <CardHeader className={`${isEmployee ? 'pb-6 px-8 pt-8' : 'pb-4'}`}>
-                  <CardTitle className={`${isEmployee ? 'text-2xl' : 'text-lg'} font-bold text-[var(--text)] flex items-center gap-3 ${isEmployee ? 'mb-2' : ''}`}>
-                    <div className={`${isEmployee ? 'p-3 rounded-xl' : 'p-2 rounded-lg'} bg-[color:rgba(142,213,226,.15)] ${isEmployee ? 'group-hover:bg-[color:rgba(142,213,226,.2)]' : 'group-hover:bg-[color:rgba(142,213,226,.2)]'} transition-colors duration-300`}>
-                      <Calendar className={`${isEmployee ? 'h-6 w-6' : 'h-5 w-5'} text-[var(--brandBlue)]`} />
+                  <CardTitle className={`${isEmployee ? 'text-2xl' : 'text-lg'} font-bold text-[#2C2A29] flex items-center gap-3 ${isEmployee ? 'mb-2' : ''}`}>
+                    <div className={`${isEmployee ? 'p-3 rounded-xl' : 'p-2 rounded-lg'} bg-[#E5F7F8] group-hover:bg-[#D8F2F5] transition-colors duration-300`}>
+                      <Calendar className={`${isEmployee ? 'h-6 w-6' : 'h-5 w-5'} text-[#3BAFDA]`} />
                     </div>
                     Your Next Shift
                   </CardTitle>
                   {isEmployee && (
-                    <CardDescription className="text-[15px] text-[color:rgba(26,26,26,.6)] font-medium">
+                    <CardDescription className="text-[15px] text-[color:rgba(44,42,41,.6)] font-medium">
                       Your upcoming schedule
                     </CardDescription>
                   )}
@@ -240,7 +240,7 @@ export default function DashboardPage() {
                       {!isEmployee && (
                         <Button
                           onClick={() => setIsShiftModalOpen(true)}
-                          className="bg-[var(--brandBlue)] text-white hover:bg-[var(--brandBlue)]/90 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-[var(--brandBlue)] focus-visible:outline-none transition-all duration-300"
+                          className="bg-[#F46C5B] text-white hover:bg-[#E55A4A] hover:shadow-lg focus-visible:ring-2 focus-visible:ring-[#F46C5B] focus-visible:outline-none transition-all duration-300 rounded-full px-6 py-2"
                           data-testid="create-first-shift"
                           aria-label="Create your first shift"
                         >
@@ -255,11 +255,11 @@ export default function DashboardPage() {
 
               {/* Recent Activity Card - Hidden for employees */}
               {!isEmployee && (
-                <Card className="group border border-[var(--border)] bg-[var(--surface)] shadow-sm rounded-xl hover:shadow hover:-translate-y-0.5 hover:border-[var(--brandBlue)]/40 transition-all duration-300 animate-slide-up">
+                <Card className="group bg-white border-2 border-[#F7F5F3] hover:border-[#E5E0DB] shadow-sm rounded-xl hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 animate-slide-up">
                   <CardHeader className="pb-4">
-                    <CardTitle className="text-lg font-semibold text-[var(--text)] flex items-center gap-2">
-                      <div className="p-2 rounded-lg bg-[color:rgba(59,175,218,.1)] group-hover:bg-[color:rgba(59,175,218,.15)] transition-colors duration-300">
-                        <TrendingUp className="h-5 w-5 text-[var(--brandBlue)]" />
+                    <CardTitle className="text-lg font-semibold text-[#2C2A29] flex items-center gap-2">
+                      <div className="p-2 rounded-lg bg-[#F7F5F3] group-hover:bg-[#F0EDE9] transition-colors duration-300">
+                        <TrendingUp className="h-5 w-5 text-[#2C2A29]" />
                       </div>
                       Recent Activity
                     </CardTitle>

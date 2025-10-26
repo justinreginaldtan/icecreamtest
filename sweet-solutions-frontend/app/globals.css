@@ -5,9 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Howdy Ice Cream Brand Theme - Phase 1 Design System */
-  --background: #fff9f5; /* Cream background - maintained */
-  --foreground: #2c2a29; /* Dark text */
+  /* Handcrafted Local Ice Cream Shop Theme */
+  --background: #FFF9F5; /* Cream background */
+  --foreground: #2C2A29; /* Soft brownish text */
   --card: #ffffff;
   --card-foreground: #2c2a29;
   --popover: #ffffff;
@@ -22,9 +22,14 @@
   --accent-foreground: #ffffff;
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
-  --border: #e5e0db;
-  --input: #e5e0db;
+  --border: #E5E0DB;
+  --input: #E5E0DB;
   --ring: #3BAFDA; /* Howdy Blue for focus rings */
+  
+  /* Handcrafted color tints for cards */
+  --card-border-blue: #E5F7F8;
+  --card-border-pink: #FEF0F0;
+  --card-border-neutral: #F7F5F3;
   --radius: 0.75rem;
   --sidebar: #ffffff;
   --sidebar-foreground: #2c2a29;
